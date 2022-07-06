@@ -1,4 +1,5 @@
 from selenium import webdriver
+import time
 
 #set options to make browsing easier
 def get_driver():
@@ -13,9 +14,13 @@ def get_driver():
     driver.get("http://automated.pythonanywhere.com")
     return driver
 
+
 def main():
-  driver=get_driver()
-  element=driver.find_element(by="xpath", value="/html/body/div[1]/div/h1[1]")
-  return element.text
+    driver = get_driver()
+    time.sleep(2)
+    element = driver.find_element(by="xpath",
+                                  value="/html/body/div[1]/div/h1[2]")
+    return element.text
+
 
 print(main())
