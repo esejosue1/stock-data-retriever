@@ -14,13 +14,18 @@ def get_driver():
     driver.get("http://automated.pythonanywhere.com")
     return driver
 
+#extract only the temp value
+def clean_text(text):
+  output=float(text.split(": ")[1])
+  return output
 
+#get the script temp of h2
 def main():
     driver = get_driver()
     time.sleep(2)
     element = driver.find_element(by="xpath",
                                   value="/html/body/div[1]/div/h1[2]")
-    return element.text
+    return clean_text(element.text)
 
 
 print(main())
