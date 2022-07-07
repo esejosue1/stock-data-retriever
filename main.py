@@ -1,33 +1,11 @@
-from selenium import webdriver
-import time
+import requests
 
-#set options to make browsing easier
-def get_driver():
-    options = webdriver.ChromeOptions()
-    options.add_argument("disable-infobars")
-    options.add_argument("start-maximized")  #access max version of browser
-    options.add_argument("disable-dev-shm-usage")  #avoid issues in lenux
-    options.add_argument("no-sandbox")  #access prviligaes
-    options.add_experimental_option("excludeSwitches", ["enable-automation"])
-    options.add_argument("disable-blink-features=AutomationControlled")
-    driver = webdriver.Chrome(options=options)
-    driver.get("https://titan22.com/account/login?return_url=%2Faccount")
-    return driver
 
-#extract only the temp value
-def clean_text(text):
-  output=float(text.split(": ")[1])
-  return output
+url = "https://query1.finance.yahoo.com/v7/finance/download/AAPL?period1=1625622925&period2=1657158925&interval=1d&events=history&includeAdjustedClose=true"
 
-#get the script temp of h2
-def main():
-    driver = get_driver()
-    time.sleep(2)
-    element = driver.find_element(by="id",
-                                  value="CustomerEmail").send_keys("jg@hotmail.com")
-    element=driver.find_element(by='id', value="CustomerPassword").send_keys("password")
-    element = driver.find_element(by="xpath", value="/html/body/footer/div/section/div/div[1]/div[1]/div[1]/nav/ul/li[1]/a").click()
-    element=driver.find_element(by='id', value="ContactFormEmail").send_keys("jg@hotmail.com")
-    element=driver.find_element(by='id', value="ContactFormFirstName").send_keys("j")
-    
-print(main())
+headers= {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36"}
+
+content=requests.get(url, headers=headers).content
+print(content)
+with open('data.csv', 'wb') as file:
+  file.write(content)
